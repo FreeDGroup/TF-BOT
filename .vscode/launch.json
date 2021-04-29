@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "name": "Python: app.py",
+      "type": "python",
+      "request": "launch",
+      "program": "app.py",
+      "console": "integratedTerminal",
+      "justMyCode": false
+    }
+  ]
+}
