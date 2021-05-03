@@ -18,7 +18,6 @@ class MyBot(AttachmentHandler, ActivityHandler):
         else:
             await self._handle_outgoing_attachment(turn_context)
 
-
         if turn_context.activity.text == "파일":
             await self._display_options(turn_context)
         await turn_context.send_activity(f"따라하기 '{ turn_context.activity.text }'")
