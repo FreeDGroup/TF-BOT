@@ -44,8 +44,12 @@ class AttachmentsHandler:
 
     async def _get_file_object_by_attachment(self, attachment: Attachment):
         try:
-
-            response = urllib.request.urlopen(attachment.content_url)
+            # url = 'https://' + \
+            #     urllib.parse.quote(attachment.content_url.split('https://')[1])
+            # headers = {'User-Agent': 'Mozilla/5.0'}
+            # req = urllib.request.Request(url, headers=headers)
+            response = urllib.request.urlopen(
+                attachment.content['downloadUrl'])
             headers = response.info()
 
             # If user uploads JSON file, this prevents it from being written as
