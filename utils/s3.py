@@ -17,7 +17,11 @@ async def get_upload_location(filename):
 
 
 async def upload_to_bucket(file_obj, name):
-    s3 = boto3.resource('s3')
+    s3 = boto3.resource(
+        's3',
+        aws_access_key_id=CONFIG.AWS_ACCESS_KEY,
+        aws_secret_access_key=CONFIG.AWS_SECRET_KEY,
+    )
     content_type, __ = mimetypes.guess_type(name, strict=False)
     s3_uploaded_obj = s3.Bucket(CONFIG.AWS_S3_BUCKET_NAME_STATIC).put_object(
         Key=await get_upload_location(name),

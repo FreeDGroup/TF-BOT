@@ -16,7 +16,7 @@ class MyBot(AttachmentsHandler, ActivityHandler):
         ):
             await self._handle_incoming_attachment(turn_context)
         else:
-            await turn_context.send_activity(f"따라하기 '{ turn_context.activity.text }'")
+            await turn_context.send_activity(f"따라하기 테스트 '{ turn_context.activity.text }'")
 
     async def on_members_added_activity(
         self,

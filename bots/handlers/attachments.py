@@ -42,7 +42,7 @@ class AttachmentsHandler:
                     f"업로드 링크 : {url}{path}"
                 )
 
-    async def _get_file_object_by_attachment(self, attachment: Attachment) -> dict:
+    async def _get_file_object_by_attachment(self, attachment: Attachment):
         try:
 
             response = urllib.request.urlopen(attachment.content_url)

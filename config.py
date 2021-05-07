@@ -16,3 +16,5 @@ class DefaultConfig:
 class S3Config:
     AWS_S3_BUCKET_NAME_STATIC = "flanb-delivery-static"
     AWS_S3_PUBLIC_URL = "https://delivery-static.arabiz.live/"
+    AWS_ACCESS_KEY = os.environ.get("aws_access_key_id", "")
+    AWS_SECRET_KEY = os.environ.get("aws_secret_access_key", "")
