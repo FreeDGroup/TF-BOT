@@ -4,6 +4,7 @@
 
 import os
 
+
 class DefaultConfig:
     """ Bot Configuration """
 
@@ -11,6 +12,7 @@ class DefaultConfig:
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
 
+
 class S3Config:
-    AWS_S3_BUCKET_NAME_STATIC
-    AWS_S3_PUBLIC_URL
+    AWS_S3_BUCKET_NAME_STATIC = "flanb-delivery-static"
+    AWS_S3_PUBLIC_URL = "https://delivery-static.arabiz.live/"
