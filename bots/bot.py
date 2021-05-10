@@ -2,12 +2,14 @@
 # Licensed under the MIT License.
 
 from bots.handlers.attachments import AttachmentsHandler
+from bots.handlers.helpers import HelpersHandler
 from bots.handlers.welcomes import WelcomesHandler
 from botbuilder.core import ActivityHandler, TurnContext
 
 
 class MyBot(
     AttachmentsHandler,
+    HelpersHandler,
     WelcomesHandler,
     ActivityHandler
 ):
@@ -21,14 +23,7 @@ class MyBot(
             await self._handle_incoming_attachment(turn_context)
         else:
             if turn_context.activity.text == '/':
-                await turn_context.send_activity(
-                    """
-                    도움말:
-                    /날씨
-                    /미세먼지
-                    이미지 첨부: 이미지를 전송하면 공유가능한 링크가 반환됩니다.
-                    """
-                )
+                await self._send_help_message(turn_context)
             elif turn_context.activity.text == '/날씨':
                 await turn_context.send_activity(f"TODO")
             elif turn_context.activity.text == '/미세먼지':
