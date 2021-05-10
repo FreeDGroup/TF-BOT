@@ -16,7 +16,19 @@ class MyBot(AttachmentsHandler, ActivityHandler):
         ):
             await self._handle_incoming_attachment(turn_context)
         else:
-            await turn_context.send_activity(f"따라하기 테스트 '{ turn_context.activity.text }'")
+            if turn_context.activity.text == '/':
+                await turn_context.send_activity("""
+                도움말:
+                /날씨
+                /미세먼지
+                이미지 첨부: 이미지를 전송하면 공유가능한 링크가 반환됩니다.
+                """)
+            elif turn_context.activity.text == '/날씨':
+                await turn_context.send_activity(f"TODO")
+            elif turn_context.activity.text == '/미세먼지':
+                await turn_context.send_activity(f"TODO")
+            else:
+                await turn_context.send_activity(f"/")
 
     async def on_members_added_activity(
         self,
@@ -33,7 +45,7 @@ class MyBot(AttachmentsHandler, ActivityHandler):
         """
         for member in turn_context.activity.members_added:
             if member.id != turn_context.activity.recipient.id:
+                print(member)
                 await turn_context.send_activity(
-                    f"{member.name} 님. 저는 Francis 봇입니다.\n" +
-                    "이미지를 주시면 링크를 드립니다"
+                    f"안녕하세요 {member.name} 님"
                 )

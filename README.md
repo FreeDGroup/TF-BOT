@@ -11,9 +11,9 @@ This sample **requires** prerequisites in order to run.
 ### Install Python 3.8
 
 ## Running the sample
+
 - Run `pip install -r requirements.txt` to install all dependencies
 - Run `python app.py`
-
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -26,6 +26,11 @@ This sample **requires** prerequisites in order to run.
 - Launch Bot Framework Emulator
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
+## Debug with realtime teams
+
+```
+ngrok http 3978 -host-header="localhost:3978"
+```
 
 ## Further reading
 

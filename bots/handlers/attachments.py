@@ -41,6 +41,10 @@ class AttachmentsHandler:
                 await turn_context.send_activity(
                     f"업로드 링크 : {url}{path}"
                 )
+            else:
+                await turn_context.send_activity(
+                    f"업로드가 불가능한 파일 형식입니다"
+                )
 
     async def _get_file_object_by_attachment(self, attachment: Attachment):
         try:
