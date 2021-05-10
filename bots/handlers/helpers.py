@@ -20,14 +20,14 @@ class HelpersHandler:
                     title="/날씨",
                     text="/날씨",
                     display_text="/날씨",
-                    value="weather",
+                    value="/날씨",
                 ),
                 CardAction(
                     type=ActionTypes.post_back,
                     title="/미세먼지",
                     text="/미세먼지",
                     display_text="/미세먼지",
-                    value="fine dust",
+                    value="/미세먼지",
                 ),
             ],
         )
