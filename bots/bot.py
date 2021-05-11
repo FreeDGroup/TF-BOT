@@ -19,14 +19,19 @@ class MyBot(
         if (
             turn_context.activity.attachments
             and len(turn_context.activity.attachments) > 0
+            and turn_context.activity.attachments[0].content_type != 'text/html'
         ):
             await self._handle_incoming_attachment(turn_context)
         else:
-            if turn_context.activity.text == '/':
+            if '<at>Francis 봇</at>' in turn_context.activity.text:
+                text = turn_context.activity.text.split('<at>Francis 봇</at>')[1].strip()
+            else:
+                text = turn_context.activity.text
+            if text == '/':
                 await self._send_help_message(turn_context)
-            elif turn_context.activity.text == '/날씨':
+            elif text == '/날씨':
                 await turn_context.send_activity(f"TODO")
-            elif turn_context.activity.text == '/미세먼지':
+            elif text == '/미세먼지':
                 await turn_context.send_activity(f"TODO")
             else:
                 await turn_context.send_activity(f"/")
