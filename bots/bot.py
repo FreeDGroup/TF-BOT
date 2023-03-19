@@ -34,4 +34,4 @@ class MyBot(
             elif text == '/미세먼지':
                 await turn_context.send_activity(f"TODO")
             else:
-                await turn_context.send_activity(f"/")
+                await turn_context.send_activity(f"아직 등록되지 않은 명령어입니다. 도움이 필요하시면 `/` 를 입력해주세요")

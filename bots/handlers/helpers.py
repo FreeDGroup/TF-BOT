@@ -12,9 +12,16 @@ class HelpersHandler:
     async def _send_help_message(self, turn_context: TurnContext):
         card = HeroCard(
             title=f"도움말",
-            text="봇과의 1:1 대화에서 이미지를 전송하면 공유가능한 링크가 반환됩니다.",
+            text="안녕하세요? 저는 francis 봇입니다. 봇과의 1:1 대화에서 이미지를 전송하면 공유가능한 링크가 반환됩니다.",
             images=[CardImage(url="https://aka.ms/bf-welcome-card-image")],
             buttons=[
+                CardAction(
+                    type=ActionTypes.post_back,
+                    title="/회의실",
+                    text="/회의실",
+                    display_text="/회의실",
+                    value="/회의실",
+                ),
                 CardAction(
                     type=ActionTypes.post_back,
                     title="/날씨",

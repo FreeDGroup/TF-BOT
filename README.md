@@ -45,3 +45,9 @@ ngrok http 3978 -host-header="localhost:3978"
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+
+## deploy
+
+```
+az webapp deployment source config-zip --resource-group "<resource-group-name>" --name "<name-of-app-service>" --src "<project-zip-path>"
+```
