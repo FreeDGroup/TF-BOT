@@ -57,6 +57,7 @@
   ],
   "validDomains": [
     "*.azurewebsites.net",
-    "token.botframework.com"
+    "token.botframework.com",
+    "*.microsoftonline.com"
   ]
 }
