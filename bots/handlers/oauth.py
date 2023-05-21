@@ -16,7 +16,7 @@ async def send_oauth_card(turn_context):
             CardAction(
                 title="로그인",
                 type=ActionTypes.signin,
-                value=f"https://login.microsoftonline.com/{CONFIG.TENANT_ID}/oauth2/v2.0/authorize?response_type=code&client_id=a795c2b9-3815-4cda-b80a-0d0cb8ad6109&redirect_uri=localhost:8000&state=12345&prompt=consent"
+                value=f"https://login.microsoftonline.com/{CONFIG.TENANT_ID}/oauth2/v2.0/authorize?response_type=code&client_id=a795c2b9-3815-4cda-b80a-0d0cb8ad6109&redirect_uri=https://token.botframework.com/.auth/web/redirect&state=12345&prompt=consent&scope=Calendars.Read"
                 # 이 value 값은 실제 OAuth 설정에 맞게 변경해야 합니다.
             )
         ],
