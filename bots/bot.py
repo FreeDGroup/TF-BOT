@@ -27,7 +27,7 @@ class MyBot(WelcomesHandler, ActivityHandler):
             if text == "/":
                 await HelpersHandler().send_help_message(turn_context)
             elif text.startswith("/회의실"):
-                await MeetingsHandler().handle()
+                await MeetingsHandler().handle(turn_context)
             elif text == "/날씨":
                 await turn_context.send_activity("TODO")
             elif text == "/미세먼지":
