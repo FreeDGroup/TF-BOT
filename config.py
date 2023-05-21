@@ -11,6 +11,7 @@ class DefaultConfig:
     PORT = 3978
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    TENANT_ID = os.environ.get("TENANT_ID", "")
 
 
 class S3Config:

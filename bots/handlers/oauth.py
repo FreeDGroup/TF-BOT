@@ -1,6 +1,8 @@
 from botbuilder.core import CardFactory, MessageFactory
 from botbuilder.schema import ActionTypes, CardAction, SigninCard
 
+from config import DefaultConfig
+
 
 async def send_oauth_card(turn_context):
     # Microsoft Azure에서 등록한 앱의 OAuth 설정에 따라 이 부분을 수정해야 합니다.
@@ -12,7 +14,7 @@ async def send_oauth_card(turn_context):
             CardAction(
                 title="로그인",
                 type=ActionTypes.signin,
-                value="https://login.microsoftonline.com/your_tenant_id/oauth2/v2.0/authorize?response_type=code&client_id=a795c2b9-3815-4cda-b80a-0d0cb8ad6109&redirect_uri=localhost:8000&state=12345&prompt=consent"
+                value=f"https://login.microsoftonline.com/{DefaultConfig.TENANT_ID}/oauth2/v2.0/authorize?response_type=code&client_id=a795c2b9-3815-4cda-b80a-0d0cb8ad6109&redirect_uri=localhost:8000&state=12345&prompt=consent"
                 # 이 value 값은 실제 OAuth 설정에 맞게 변경해야 합니다.
             )
         ],
