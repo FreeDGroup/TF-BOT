@@ -1,5 +1,6 @@
 {
     "python.linting.pylintEnabled": true,
     "python.languageServer": "Pylance",
-    "python.pythonPath": "venv/bin/python"
+    "python.pythonPath": "venv/bin/python",
+    "files.autoSave": "afterDelay",
 }

@@ -1,20 +1,15 @@
 from botbuilder.core import CardFactory, MessageFactory, TurnContext
 from botbuilder.schema import (
+    ActionTypes,
+    CardAction,
+    CardImage,
     ChannelAccount,
     HeroCard,
-    CardImage,
-    CardAction,
-    ActionTypes,
 )
 
 
 class WelcomesHandler:
-
-    async def on_members_added_activity(
-        self,
-        members_added: ChannelAccount,
-        turn_context: TurnContext
-    ):
+    async def on_members_added_activity(self, members_added: ChannelAccount, turn_context: TurnContext):
         await self._send_welcome_message(turn_context)
 
     async def _send_welcome_message(self, turn_context: TurnContext):
@@ -57,6 +52,4 @@ class WelcomesHandler:
             ],
         )
 
-        return await turn_context.send_activity(
-            MessageFactory.attachment(CardFactory.hero_card(card))
-        )
+        return await turn_context.send_activity(MessageFactory.attachment(CardFactory.hero_card(card)))

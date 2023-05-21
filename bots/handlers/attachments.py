@@ -2,22 +2,13 @@
 # Licensed under the MIT License.
 
 import io
-import os
+import json
 import urllib.parse
 import urllib.request
-import base64
-import json
 
-from botbuilder.core import ActivityHandler, MessageFactory, TurnContext, CardFactory
+from botbuilder.core import TurnContext
 from botbuilder.schema import (
-    ChannelAccount,
-    HeroCard,
-    CardAction,
-    ActivityTypes,
     Attachment,
-    AttachmentData,
-    Activity,
-    ActionTypes,
 )
 
 from utils.s3 import upload_to_bucket
@@ -33,18 +24,14 @@ class AttachmentsHandler:
     beyond the single turn, should be carefully managed.
     """
 
-    async def _handle_incoming_attachment(self, turn_context: TurnContext):
+    async def handle_incoming_attachment(self, turn_context: TurnContext):
         for attachment in turn_context.activity.attachments:
             data = await self._get_file_object_by_attachment(attachment)
             if data:
                 url, path = await upload_to_bucket(data, attachment.name)
-                await turn_context.send_activity(
-                    f"업로드 링크 : {url}{path}"
-                )
+                await turn_context.send_activity(f"업로드 링크 : {url}{path}")
             else:
-                await turn_context.send_activity(
-                    f"업로드가 불가능한 파일 형식입니다"
-                )
+                await turn_context.send_activity(f"{data} 는 업로드가 불가능한 파일 형식입니다")
 
     async def _get_file_object_by_attachment(self, attachment: Attachment):
         try:
@@ -52,8 +39,7 @@ class AttachmentsHandler:
             #     urllib.parse.quote(attachment.content_url.split('https://')[1])
             # headers = {'User-Agent': 'Mozilla/5.0'}
             # req = urllib.request.Request(url, headers=headers)
-            response = urllib.request.urlopen(
-                attachment.content['downloadUrl'])
+            response = urllib.request.urlopen(attachment.content["downloadUrl"])
             headers = response.info()
 
             # If user uploads JSON file, this prevents it from being written as
