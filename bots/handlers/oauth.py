@@ -1,5 +1,5 @@
 from botbuilder.core import CardFactory, MessageFactory
-from botbuilder.schema import ActionTypes, CardAction, SigninCard
+from botbuilder.schema import ActionTypes, CardAction, OAuthCard
 
 from config import DefaultConfig
 
@@ -8,10 +8,12 @@ CONFIG = DefaultConfig()
 
 async def send_oauth_card(turn_context):
     # Microsoft Azure에서 등록한 앱의 OAuth 설정에 따라 이 부분을 수정해야 합니다.
+    connection_name = "AzureAD"
 
     # OAuthCard 생성
-    card = SigninCard(
+    card = OAuthCard(
         text="로그인이 필요합니다.",
+        connection_name=connection_name,
         buttons=[
             CardAction(
                 title="로그인",
