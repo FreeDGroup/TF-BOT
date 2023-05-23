@@ -1,10 +1,8 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-from botbuilder.core import MessageFactory
 from botbuilder.dialogs import (
     DialogTurnResult,
-    PromptOptions,
     WaterfallDialog,
     WaterfallStepContext,
 )
@@ -52,13 +50,13 @@ class MainDialog(LogoutDialog):
         # Get the token from the previous step. Note that we could also have gotten the
         # token directly from the prompt itself. There is an example of this in the next method.
         if step_context.result:
-            await step_context.context.send_activity("You are now logged in.")
-            return await step_context.prompt(
-                ConfirmPrompt.__name__,
-                PromptOptions(prompt=MessageFactory.text("Would you like to view your token?")),
-            )
+            return await step_context.context.send_activity("로그인 성공.")
+            # return await step_context.prompt(
+            #     ConfirmPrompt.__name__,
+            #     PromptOptions(prompt=MessageFactory.text("Would you like to view your token?")),
+            # )
 
-        await step_context.context.send_activity("Login was not successful please try again.")
+        await step_context.context.send_activity("로그인에 실패했습니다 다시 시도해주세요.")
         return await step_context.end_dialog()
 
     async def display_token_phase1(self, step_context: WaterfallStepContext) -> DialogTurnResult:
