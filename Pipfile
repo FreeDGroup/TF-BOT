@@ -4,8 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-botbuilder-integration-aiohttp = ">=4.14.0"
-botbuilder-dialogs = ">=4.14.0"
+botbuilder-integration-aiohttp = ">=4.14.3"
+botbuilder-dialogs = ">=4.14.3"
 boto3 = "==1.17.64"
 pytz = "*"
 
