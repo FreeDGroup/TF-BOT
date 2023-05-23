@@ -22,8 +22,8 @@ class MainDialog(LogoutDialog):
                 OAuthPrompt.__name__,
                 OAuthPromptSettings(
                     connection_name=connection_name,
-                    text="Please Sign In",
-                    title="Sign In",
+                    text="로그인이 필요합니다",
+                    title="로그인",
                     timeout=300000,
                 ),
             )
