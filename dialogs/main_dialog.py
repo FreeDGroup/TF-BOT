@@ -10,12 +10,12 @@ from botbuilder.dialogs import (
 )
 from botbuilder.dialogs.prompts import ConfirmPrompt, OAuthPrompt, OAuthPromptSettings
 
-from dialogs import LogoutDialog
+from dialogs.logout_dialog import LogoutDialog
 
 
 class MainDialog(LogoutDialog):
     def __init__(self, connection_name: str):
-        super(MainDialog, self).__init__(MainDialog.__name__, connection_name)
+        super().__init__(MainDialog.__name__, connection_name)
 
         self.add_dialog(
             OAuthPrompt(

@@ -22,7 +22,7 @@ from botbuilder.schema import Activity, ActivityTypes
 # from bot import MyBot
 from bots.bot import MyBot
 from config import DefaultConfig
-from dialogs import MainDialog
+from dialogs.main_dialog import MainDialog
 
 CONFIG = DefaultConfig()
 
