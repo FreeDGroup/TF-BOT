@@ -4,13 +4,17 @@
 import sys
 import traceback
 from datetime import datetime
+from http import HTTPStatus
 
 from aiohttp import web
 from aiohttp.web import Request, Response, json_response
 from botbuilder.core import (
     BotFrameworkAdapter,
     BotFrameworkAdapterSettings,
+    ConversationState,
+    MemoryStorage,
     TurnContext,
+    UserState,
 )
 from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes
@@ -18,6 +22,7 @@ from botbuilder.schema import Activity, ActivityTypes
 # from bot import MyBot
 from bots.bot import MyBot
 from config import DefaultConfig
+from dialogs import MainDialog
 
 CONFIG = DefaultConfig()
 
@@ -55,8 +60,16 @@ async def on_error(context: TurnContext, error: Exception):
 
 ADAPTER.on_turn_error = on_error
 
+# Create MemoryStorage and state
+MEMORY = MemoryStorage()
+USER_STATE = UserState(MEMORY)
+CONVERSATION_STATE = ConversationState(MEMORY)
+
+# Create dialog
+DIALOG = MainDialog(CONFIG.CONNECTION_NAME)
+
 # Create the Bot
-BOT = MyBot()
+BOT = MyBot(CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
 # Listen for incoming requests on /api/messages
@@ -65,7 +78,7 @@ async def messages(req: Request) -> Response:
     if "application/json" in req.headers["Content-Type"]:
         body = await req.json()
     else:
-        return Response(status=415)
+        return Response(status=HTTPStatus.UNSUPPORTED_MEDIA_TYPE)
 
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
@@ -73,7 +86,7 @@ async def messages(req: Request) -> Response:
     response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
     if response:
         return json_response(data=response.body, status=response.status)
-    return Response(status=201)
+    return Response(status=HTTPStatus.OK)
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
