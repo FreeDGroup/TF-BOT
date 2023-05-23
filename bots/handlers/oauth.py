@@ -18,4 +18,4 @@ async def send_oauth_card(turn_context):
     )
 
     # 메시지에 OAuthCard를 추가하고 사용자에게 보냅니다.
-    await turn_context.send_activity(MessageFactory.attachment(CardFactory.signin_card(card)))
+    await turn_context.send_activity(MessageFactory.attachment(CardFactory.oauth_card(card)))
