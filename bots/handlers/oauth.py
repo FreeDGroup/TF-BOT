@@ -8,7 +8,7 @@ CONFIG = DefaultConfig()
 
 async def send_oauth_card(turn_context):
     # Microsoft Azure에서 등록한 앱의 OAuth 설정에 따라 이 부분을 수정해야 합니다.
-    connection_name = "AzureAD"
+    connection_name = "francis bot oauth"
 
     # OAuthCard 생성
     card = OAuthCard(
