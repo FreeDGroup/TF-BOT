@@ -1,6 +1,3 @@
-# Copyright (c) Microsoft Corporation. All rights reserved.
-# Licensed under the MIT License.
-
 from botbuilder.core import BotFrameworkAdapter
 from botbuilder.dialogs import ComponentDialog, DialogContext, DialogTurnResult
 from botbuilder.schema import ActivityTypes

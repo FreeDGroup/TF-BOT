@@ -9,7 +9,7 @@ from botbuilder.core.teams import TeamsActivityHandler
 from botbuilder.dialogs import Dialog
 from botbuilder.schema import ChannelAccount
 
-from bots.handlers.welcomes import WelcomesHandler
+from dialogs.welcomes import WelcomesHandler
 from utils.dialog_helper import DialogHelper
 
 

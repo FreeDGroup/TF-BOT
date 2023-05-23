@@ -1,6 +1,6 @@
 from botbuilder.core import TurnContext
 
-from bots.handlers import oauth
+from dialogs import oauth
 
 
 class MeetingsHandler:
