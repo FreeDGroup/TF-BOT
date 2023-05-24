@@ -43,7 +43,7 @@
       "scopes": [
         "personal",
         "team",
-        "groupchat"
+        "groupChat"
       ],
       "supportsFiles": true,
       "isNotificationOnly": false,
