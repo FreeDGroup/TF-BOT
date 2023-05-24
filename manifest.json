@@ -1,7 +1,7 @@
 {
   "$schema": "https://github.com/OfficeDev/microsoft-teams-app-schema/blob/preview/DevPreview/MicrosoftTeams.schema.json",
   "manifestVersion": "devPreview",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "id": "a795c2b9-3815-4cda-b80a-0d0cb8ad6109",
   "packageName": "com.travelflan.francis-bot",
   "developer": {
