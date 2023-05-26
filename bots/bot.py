@@ -43,20 +43,20 @@ class MyBot(TeamsActivityHandler):
 
     async def on_token_response_event(self, turn_context: TurnContext):
         # Run the Dialog with the new Token Response Event Activity.
+        self.conversation_state.create_property("DialogState")
         await DialogHelper.run_dialog(
             MainDialog.__name__,
             self.dialogs,
             turn_context,
-            self.conversation_state.create_property("DialogState"),
         )
 
     async def on_teams_signin_verify_state(self, turn_context: TurnContext):
         # Running dialog with Teams Signin Verify State Activity.
+        self.conversation_state.create_property("DialogState")
         await DialogHelper.run_dialog(
             MainDialog.__name__,
             self.dialogs,
             turn_context,
-            self.conversation_state.create_property("DialogState"),
         )
 
     async def on_message_activity(self, turn_context: TurnContext):
@@ -67,11 +67,11 @@ class MyBot(TeamsActivityHandler):
         ):
             await AttachmentsHandler().handle_incoming_attachment(turn_context)
         else:
+            self.conversation_state.create_property("DialogState")
             await DialogHelper.run_dialog(
                 MainDialog.__name__,
                 self.dialogs,
                 turn_context,
-                self.conversation_state.create_property("DialogState"),
             )
             # if "<at>Francis 봇</at>" in turn_context.activity.text:
             #     text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()

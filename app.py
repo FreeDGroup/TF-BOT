@@ -20,9 +20,11 @@ from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.dialogs import DialogSet
 from botbuilder.schema import Activity, ActivityTypes
 
-# from bot import MyBot
 from bots.bot import MyBot
 from config import DefaultConfig
+
+# from bot import MyBot
+from dialogs.main_dialog import MainDialog
 
 CONFIG = DefaultConfig()
 
@@ -68,6 +70,7 @@ CONVERSATION_STATE = ConversationState(MEMORY)
 # Create dialog
 dialog_state = CONVERSATION_STATE.create_property("DialogState")
 DIALOGS = DialogSet(dialog_state)
+DIALOGS.add(MainDialog(CONFIG.CONNECTION_NAME))
 # DIALOGS.add(OrderDialog())
 # DIALOGS.add(InquiryDialog())
 
