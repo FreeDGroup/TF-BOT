@@ -26,7 +26,6 @@ class MyBot(TeamsActivityHandler):
         self.conversation_state = conversation_state
         self.user_state = user_state
         self.dialogs = dialogs
-        self.dialog_state = self.conversation_state.create_property("DialogState")
 
     async def on_turn(self, turn_context: TurnContext):
         await super().on_turn(turn_context)
@@ -48,7 +47,7 @@ class MyBot(TeamsActivityHandler):
             MainDialog.__name__,
             self.dialogs,
             turn_context,
-            self.dialog_state,
+            self.conversation_state.create_property("DialogState"),
         )
 
     async def on_teams_signin_verify_state(self, turn_context: TurnContext):
@@ -57,7 +56,7 @@ class MyBot(TeamsActivityHandler):
             MainDialog.__name__,
             self.dialogs,
             turn_context,
-            self.dialog_state,
+            self.conversation_state.create_property("DialogState"),
         )
 
     async def on_message_activity(self, turn_context: TurnContext):
@@ -72,7 +71,7 @@ class MyBot(TeamsActivityHandler):
                 MainDialog.__name__,
                 self.dialogs,
                 turn_context,
-                self.dialog_state,
+                self.conversation_state.create_property("DialogState"),
             )
             # if "<at>Francis 봇</at>" in turn_context.activity.text:
             #     text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()

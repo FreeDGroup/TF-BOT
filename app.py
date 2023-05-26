@@ -23,7 +23,6 @@ from botbuilder.schema import Activity, ActivityTypes
 # from bot import MyBot
 from bots.bot import MyBot
 from config import DefaultConfig
-from dialogs.main_dialog import MainDialog
 
 CONFIG = DefaultConfig()
 
@@ -67,8 +66,8 @@ USER_STATE = UserState(MEMORY)
 CONVERSATION_STATE = ConversationState(MEMORY)
 
 # Create dialog
-DIALOGS = DialogSet()
-DIALOGS.add(MainDialog(CONFIG.CONNECTION_NAME))
+dialog_state = CONVERSATION_STATE.create_property("DialogState")
+DIALOGS = DialogSet(dialog_state)
 # DIALOGS.add(OrderDialog())
 # DIALOGS.add(InquiryDialog())
 
