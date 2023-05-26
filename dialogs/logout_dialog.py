@@ -5,7 +5,7 @@ from botbuilder.schema import ActivityTypes
 
 class LogoutDialog(ComponentDialog):
     def __init__(self, dialog_id: str, connection_name: str):
-        super(LogoutDialog, self).__init__(dialog_id)
+        super().__init__(dialog_id)
 
         self.connection_name = connection_name
 

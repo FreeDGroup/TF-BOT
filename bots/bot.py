@@ -6,10 +6,11 @@ from botbuilder.core import (
     UserState,
 )
 from botbuilder.core.teams import TeamsActivityHandler
-from botbuilder.dialogs import Dialog
+from botbuilder.dialogs import DialogSet
 from botbuilder.schema import ChannelAccount
 
 from dialogs.attachments import AttachmentsHandler
+from dialogs.main_dialog import MainDialog
 from utils.dialog_helper import DialogHelper
 
 
@@ -20,11 +21,12 @@ class MyBot(TeamsActivityHandler):
         self,
         conversation_state: ConversationState,
         user_state: UserState,
-        dialog: Dialog,
+        dialogs: DialogSet,
     ):
         self.conversation_state = conversation_state
         self.user_state = user_state
-        self.dialog = dialog
+        self.dialogs = dialogs
+        self.dialog_state = self.conversation_state.create_property("DialogState")
 
     async def on_turn(self, turn_context: TurnContext):
         await super().on_turn(turn_context)
@@ -43,17 +45,19 @@ class MyBot(TeamsActivityHandler):
     async def on_token_response_event(self, turn_context: TurnContext):
         # Run the Dialog with the new Token Response Event Activity.
         await DialogHelper.run_dialog(
-            self.dialog,
+            MainDialog.__name__,
+            self.dialogs,
             turn_context,
-            self.conversation_state.create_property("DialogState"),
+            self.dialog_state,
         )
 
     async def on_teams_signin_verify_state(self, turn_context: TurnContext):
         # Running dialog with Teams Signin Verify State Activity.
         await DialogHelper.run_dialog(
-            self.dialog,
+            MainDialog.__name__,
+            self.dialogs,
             turn_context,
-            self.conversation_state.create_property("DialogState"),
+            self.dialog_state,
         )
 
     async def on_message_activity(self, turn_context: TurnContext):
@@ -65,9 +69,10 @@ class MyBot(TeamsActivityHandler):
             await AttachmentsHandler().handle_incoming_attachment(turn_context)
         else:
             await DialogHelper.run_dialog(
-                self.dialog,
+                MainDialog.__name__,
+                self.dialogs,
                 turn_context,
-                self.conversation_state.create_property("DialogState"),
+                self.dialog_state,
             )
             # if "<at>Francis 봇</at>" in turn_context.activity.text:
             #     text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()

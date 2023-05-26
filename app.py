@@ -17,6 +17,7 @@ from botbuilder.core import (
     UserState,
 )
 from botbuilder.core.integration import aiohttp_error_middleware
+from botbuilder.dialogs import DialogSet
 from botbuilder.schema import Activity, ActivityTypes
 
 # from bot import MyBot
@@ -66,10 +67,13 @@ USER_STATE = UserState(MEMORY)
 CONVERSATION_STATE = ConversationState(MEMORY)
 
 # Create dialog
-DIALOG = MainDialog(CONFIG.CONNECTION_NAME)
+DIALOGS = DialogSet()
+DIALOGS.add(MainDialog(CONFIG.CONNECTION_NAME))
+# DIALOGS.add(OrderDialog())
+# DIALOGS.add(InquiryDialog())
 
 # Create the Bot
-BOT = MyBot(CONVERSATION_STATE, USER_STATE, DIALOG)
+BOT = MyBot(CONVERSATION_STATE, USER_STATE, DIALOGS)
 
 
 # Listen for incoming requests on /api/messages
