@@ -9,6 +9,7 @@ from botbuilder.core.teams import TeamsActivityHandler
 from botbuilder.dialogs import DialogSet
 from botbuilder.schema import ChannelAccount
 
+from accessors.user_profile import UserProfileAccessor
 from dialogs.attachments import AttachmentsHandler
 from dialogs.main_dialog import MainDialog
 from utils.dialog_helper import DialogHelper
@@ -67,12 +68,23 @@ class MyBot(TeamsActivityHandler):
         ):
             await AttachmentsHandler().handle_incoming_attachment(turn_context)
         else:
-            self.conversation_state.create_property("DialogState")
-            await DialogHelper.run_dialog(
-                MainDialog.__name__,
-                self.dialogs,
-                turn_context,
+            # UserProfileAccessor 생성
+            user_profile_accessor = UserProfileAccessor(self.user_state)
+            user_profile = await user_profile_accessor.get_user_profile(
+                turn_context, turn_context.activity.from_property
             )
+
+            if user_profile.is_logged_in:
+                # 사용자가 로그인된 경우의 로직
+                await turn_context.send_activity(f"안녕하세요, {user_profile.name} 님!")
+            else:
+                self.conversation_state.create_property("DialogState")
+                await DialogHelper.run_dialog(
+                    MainDialog.__name__,
+                    self.dialogs,
+                    turn_context,
+                )
+
             # if "<at>Francis 봇</at>" in turn_context.activity.text:
             #     text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
             # else:

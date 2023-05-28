@@ -45,6 +45,8 @@ class MainDialog(LogoutDialog):
         return await step_context.begin_dialog(OAuthPrompt.__name__)
 
     async def login_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-        if not step_context.result:
+        if step_context.result:
+            await step_context.context.send_activity("로그인에 성공")
+        else:
             await step_context.context.send_activity("로그인에 실패했습니다 다시 시도해주세요.")
         return await step_context.end_dialog()
