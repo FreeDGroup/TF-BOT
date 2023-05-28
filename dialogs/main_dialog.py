@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+from botbuilder.core import UserState
 from botbuilder.dialogs import (
     DialogTurnResult,
     WaterfallDialog,
@@ -8,13 +9,14 @@ from botbuilder.dialogs import (
 )
 from botbuilder.dialogs.prompts import ConfirmPrompt, OAuthPrompt, OAuthPromptSettings
 
+from accessors.user_profile import UserProfileAccessor
 from dialogs.logout_dialog import LogoutDialog
 
 
 class MainDialog(LogoutDialog):
-    def __init__(self, connection_name: str):
-        super().__init__(MainDialog.__name__, connection_name)
-
+    def __init__(self, connection_name: str, user_state: UserState):
+        super().__init__(MainDialog.__name__, connection_name, user_state)
+        self.user_profile_accessor = UserProfileAccessor(user_state)
         self.add_dialog(
             OAuthPrompt(
                 OAuthPrompt.__name__,
@@ -47,6 +49,9 @@ class MainDialog(LogoutDialog):
     async def login_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         if step_context.result:
             await step_context.context.send_activity("로그인에 성공")
+            await self.user_profile_accessor.set_user_logged_in(
+                step_context.context, step_context.context.activity.from_property
+            )
         else:
             await step_context.context.send_activity("로그인에 실패했습니다 다시 시도해주세요.")
         return await step_context.end_dialog()

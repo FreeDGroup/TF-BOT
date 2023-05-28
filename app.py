@@ -70,7 +70,7 @@ CONVERSATION_STATE = ConversationState(MEMORY)
 # Create dialog
 dialog_state = CONVERSATION_STATE.create_property("DialogState")
 DIALOGS = DialogSet(dialog_state)
-DIALOGS.add(MainDialog(CONFIG.CONNECTION_NAME))
+DIALOGS.add(MainDialog(CONFIG.CONNECTION_NAME), USER_STATE)
 # DIALOGS.add(OrderDialog())
 # DIALOGS.add(InquiryDialog())
 

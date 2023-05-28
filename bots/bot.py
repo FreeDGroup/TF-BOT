@@ -84,9 +84,6 @@ class MyBot(TeamsActivityHandler):
                     self.dialogs,
                     turn_context,
                 )
-                user_profile = await user_profile_accessor.set_user_logged_in(
-                    turn_context, turn_context.activity.from_property
-                )
 
             # if "<at>Francis 봇</at>" in turn_context.activity.text:
             #     text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
