@@ -15,7 +15,7 @@ from dialogs.logout_dialog import LogoutDialog
 
 class MainDialog(LogoutDialog):
     def __init__(self, connection_name: str, user_state: UserState):
-        super().__init__(MainDialog.__name__, connection_name, user_state)
+        super().__init__(MainDialog.__name__, connection_name)
         self.user_profile_accessor = UserProfileAccessor(user_state)
         self.add_dialog(
             OAuthPrompt(
