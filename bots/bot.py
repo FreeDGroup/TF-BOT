@@ -68,6 +68,11 @@ class MyBot(TeamsActivityHandler):
         ):
             await AttachmentsHandler().handle_incoming_attachment(turn_context)
         else:
+            if turn_context.activity.text == "reset":
+                await turn_context.send_activity("Resetting all data stored in UserState and ConversationState")
+                await self.user_state.delete(turn_context)
+                await self.conversation_state.delete(turn_context)
+                return
             # UserProfileAccessor 생성
             user_profile_accessor = UserProfileAccessor(self.user_state)
             user_profile = await user_profile_accessor.get_user_profile(
