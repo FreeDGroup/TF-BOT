@@ -12,7 +12,7 @@ class DefaultConfig:
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
     TENANT_ID = os.environ.get("TENANT_ID", "")
-    CONNECTION_NAME = os.environ.get("CONNECTION_NAME", "francis bot oauth")
+    CONNECTION_NAME = os.environ.get("CONNECTION_NAME", "francis-bot")
 
 
 class S3Config:

@@ -20,5 +20,6 @@ class UserProfileAccessor:
     async def set_user_logged_in(self, turn_context: TurnContext, channel_account: ChannelAccount):
         user_profile = await self.get_user_profile(turn_context, channel_account)
         user_profile.is_logged_in = True
+        user_profile.name = channel_account.name
         await self.user_profile_accessor.set(turn_context, user_profile)
         await self.user_state.save_changes(turn_context)
