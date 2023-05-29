@@ -13,6 +13,7 @@ class DefaultConfig:
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
     TENANT_ID = os.environ.get("TENANT_ID", "")
     CONNECTION_NAME = os.environ.get("CONNECTION_NAME", "francis-bot")
+    OPENAI_SECRET_KEY = os.environ.get("OPENAI_SECRET_KEY", "")
 
 
 class S3Config:
