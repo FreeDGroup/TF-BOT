@@ -3,4 +3,5 @@
     "python.languageServer": "Pylance",
     "python.pythonPath": "venv/bin/python",
     "files.autoSave": "afterDelay",
+    "editor.rulers": [120],
 }

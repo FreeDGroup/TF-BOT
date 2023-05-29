@@ -22,6 +22,7 @@ from botbuilder.schema import Activity, ActivityTypes
 
 from bots.bot import MyBot
 from config import DefaultConfig
+from dialogs.calendar_dialog import CalendarDialog
 
 # from bot import MyBot
 from dialogs.main_dialog import MainDialog
@@ -70,7 +71,8 @@ CONVERSATION_STATE = ConversationState(MEMORY)
 # Create dialog
 dialog_state = CONVERSATION_STATE.create_property("DialogState")
 DIALOGS = DialogSet(dialog_state)
-DIALOGS.add(MainDialog(CONFIG.CONNECTION_NAME, USER_STATE))
+DIALOGS.add(MainDialog("MainDialog", CONFIG.CONNECTION_NAME, USER_STATE))
+DIALOGS.add(CalendarDialog(CONFIG.CONNECTION_NAME, USER_STATE))
 # DIALOGS.add(OrderDialog())
 # DIALOGS.add(InquiryDialog())
 

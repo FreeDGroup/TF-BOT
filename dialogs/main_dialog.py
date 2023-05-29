@@ -4,18 +4,17 @@
 from botbuilder.core import UserState
 from botbuilder.dialogs import (
     DialogTurnResult,
-    WaterfallDialog,
     WaterfallStepContext,
 )
-from botbuilder.dialogs.prompts import ConfirmPrompt, OAuthPrompt, OAuthPromptSettings
+from botbuilder.dialogs.prompts import OAuthPrompt, OAuthPromptSettings
 
 from accessors.user_profile import UserProfileAccessor
 from dialogs.logout_dialog import LogoutDialog
 
 
 class MainDialog(LogoutDialog):
-    def __init__(self, connection_name: str, user_state: UserState):
-        super().__init__(MainDialog.__name__, connection_name)
+    def __init__(self, dialog_id: str, connection_name: str, user_state: UserState):
+        super().__init__(dialog_id, connection_name)
         self.user_profile_accessor = UserProfileAccessor(user_state)
         self.add_dialog(
             OAuthPrompt(
@@ -29,17 +28,17 @@ class MainDialog(LogoutDialog):
             )
         )
 
-        self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
+        # self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
 
-        self.add_dialog(
-            WaterfallDialog(
-                "WFDialog",
-                [
-                    self.prompt_step,
-                    self.login_step,
-                ],
-            )
-        )
+        # self.add_dialog(
+        #     WaterfallDialog(
+        #         "WFDialog",
+        #         [
+        #             self.prompt_step,
+        #             self.login_step,
+        #         ],
+        #     )
+        # )
 
         self.initial_dialog_id = "WFDialog"
 
@@ -52,6 +51,7 @@ class MainDialog(LogoutDialog):
             await self.user_profile_accessor.set_user_logged_in(
                 step_context.context, step_context.context.activity.from_property
             )
+            return await step_context.next(step_context.result["token"])
         else:
             await step_context.context.send_activity("로그인에 실패했습니다 다시 시도해주세요.")
         return await step_context.end_dialog()

@@ -24,7 +24,7 @@ class LogoutDialog(ComponentDialog):
     async def _interrupt(self, inner_dc: DialogContext):
         if inner_dc.context.activity.type == ActivityTypes.message:
             text = inner_dc.context.activity.text.lower()
-            if text == "logout":
+            if text in ("logout", "reset"):
                 bot_adapter: BotFrameworkAdapter = inner_dc.context.adapter
                 await bot_adapter.sign_out_user(inner_dc.context, self.connection_name)
                 await inner_dc.context.send_activity("You have been signed out.")
