@@ -53,8 +53,7 @@ class MainDialog(LogoutDialog):
             )
             text = step_context.context.activity.text.lower()
             if text == "token":
-                await step_context.context.send_activity(step_context.result.token)
-                return await step_context.end_dialog()
+                await step_context.context.send_activity(str(step_context.result.token))
             return await step_context.next(step_context.result.token)
         else:
             await step_context.context.send_activity("로그인에 실패했습니다 다시 시도해주세요.")
