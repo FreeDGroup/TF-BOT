@@ -13,10 +13,16 @@ def get_meetings(token, user_id, start_time=None, end_time=None):
     start_time = start_time.isoformat()
     end_time = end_time.isoformat()
 
-    url = f"https://graph.microsoft.com/v1.0/users/{user_id}/calendarview"
-    query_params = f"?startDateTime={start_time}&endDateTime={end_time}"
-    headers = {"Authorization": f"Bearer {token}", "Prefer": 'outlook.timezone="Pacific Standard Time"'}
-    response = requests.get(url + query_params, headers=headers)
+    url = "https://graph.microsoft.com/v1.0/me/calendar/getSchedule"
+    body = {
+        "schedules": [user_id],
+        "startTime": {"dateTime": start_time, "timeZone": "Asia/Seoul"},
+        "endTime": {"dateTime": end_time, "timeZone": "Asia/Seoul"},
+        "availabilityViewInterval": 60,
+    }
+    headers = {"Authorization": f"Bearer {token}", "Prefer": 'outlook.timezone="Asia/Seoul"'}
+    with requests.Session() as session:
+        response = session.post(url, headers=headers, body=body)
     try:
         response.raise_for_status()  # If the request fails, this will raise a HTTPError
     except requests.exceptions.HTTPError as e:
