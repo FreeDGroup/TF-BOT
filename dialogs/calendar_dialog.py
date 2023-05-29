@@ -38,5 +38,8 @@ class CalendarDialog(MainDialog):
                 result = graph.get_meetings(token, "meeting.room.4f@freedgrouptech.com")
             elif step_context.values["user_input"].startswith("5층"):
                 result = graph.get_meetings(token, "meeting.room.5f@freedgrouptech.com")
+            else:
+                result = "다시 시도해주세요"
             await step_context.context.send_activity(str(result))
+
         return await step_context.end_dialog()
