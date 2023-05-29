@@ -9,7 +9,7 @@ from botbuilder.dialogs import (
 )
 
 from dialogs.main_dialog import MainDialog
-from utils import graph, openai
+from utils import graph, openai_helper
 
 
 class CalendarDialog(MainDialog):
@@ -41,7 +41,7 @@ class CalendarDialog(MainDialog):
             else:
                 return await step_context.end_dialog()
 
-            ai_generated = openai.get_meeting_schedule(result, step_context.values["user_input"])
+            ai_generated = openai_helper.get_meeting_schedule(result, "오늘 미팅룸 사용가능한 시간 알려줘")
             await step_context.context.send_activity(ai_generated)
 
         return await step_context.end_dialog()

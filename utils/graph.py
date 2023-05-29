@@ -29,4 +29,6 @@ def get_meetings(token, user_id, start_time=None, end_time=None):
         return str(e) + "\n" + response.text
 
     meetings = response.json()
-    return [x["scheduleItems"] for x in meetings["value"]]
+    schedule_items = meetings["value"][0]["scheduleItems"]
+    parsed_schedule = [{"start": item["start"]["dateTime"], "end": item["end"]["dateTime"]} for item in schedule_items]
+    return parsed_schedule
