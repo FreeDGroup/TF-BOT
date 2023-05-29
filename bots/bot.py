@@ -61,27 +61,30 @@ class MyBot(TeamsActivityHandler):
         )
 
     async def on_message_activity(self, turn_context: TurnContext):
-        if (
-            turn_context.activity.attachments
-            and len(turn_context.activity.attachments) > 0
-            and turn_context.activity.attachments[0].content_type != "text/html"
-        ):
-            await AttachmentsHandler().handle_incoming_attachment(turn_context)
-        else:
-            # # UserProfileAccessor 생성
-            # user_profile_accessor = UserProfileAccessor(self.user_state)
-            # user_profile = await user_profile_accessor.get_user_profile(
-            #     turn_context, turn_context.activity.from_property
-            # )
+        try:
+            if (
+                turn_context.activity.attachments
+                and len(turn_context.activity.attachments) > 0
+                and turn_context.activity.attachments[0].content_type != "text/html"
+            ):
+                await AttachmentsHandler().handle_incoming_attachment(turn_context)
+            else:
+                # # UserProfileAccessor 생성
+                # user_profile_accessor = UserProfileAccessor(self.user_state)
+                # user_profile = await user_profile_accessor.get_user_profile(
+                #     turn_context, turn_context.activity.from_property
+                # )
 
-            # if not user_profile.is_logged_in or turn_context.activity.text in ("reset", "logout"):
-            #     # 로그인 안되어있는 경우
-            self.conversation_state.create_property("DialogState")
-            await DialogHelper.run_dialog(
-                CalendarDialog.__name__,
-                self.dialogs,
-                turn_context,
-            )
+                # if not user_profile.is_logged_in or turn_context.activity.text in ("reset", "logout"):
+                #     # 로그인 안되어있는 경우
+                self.conversation_state.create_property("DialogState")
+                await DialogHelper.run_dialog(
+                    CalendarDialog.__name__,
+                    self.dialogs,
+                    turn_context,
+                )
+        except Exception as e:
+            await turn_context.send_activity(f"오류가 발생했습니다. {e}")
             # else:
             #     # 사용자가 로그인된 경우의 로직
             #     await turn_context.send_activity(f"안녕하세요, {user_profile.name} 님!")
