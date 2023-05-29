@@ -2,8 +2,9 @@ import openai
 
 from config import DefaultConfig
 
-# Load your OpenAI API key from an environment variable or secret management service
-openai.api_key = DefaultConfig.OPENAI_SECRET_KEY
+CONFIG = DefaultConfig()
+
+openai.api_key = CONFIG.OPENAI_SECRET_KEY
 
 
 def get_meeting_schedule(user_question):
