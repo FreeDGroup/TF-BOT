@@ -1,3 +1,4 @@
+import traceback
 from typing import List
 
 from botbuilder.core import (
@@ -84,7 +85,9 @@ class MyBot(TeamsActivityHandler):
                     turn_context,
                 )
         except Exception as e:
-            await turn_context.send_activity(f"오류가 발생했습니다. {e}")
+            error_traceback = traceback.format_exc()
+
+            await turn_context.send_activity(f"오류가 발생했습니다. {str(e)}\n{error_traceback}")
             # else:
             #     # 사용자가 로그인된 경우의 로직
             #     await turn_context.send_activity(f"안녕하세요, {user_profile.name} 님!")
