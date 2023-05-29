@@ -48,7 +48,7 @@ class MainDialog(LogoutDialog):
 
     async def login_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         if step_context.result:
-            await step_context.context.send_activity("로그인에 성공")
+            # await step_context.context.send_activity("로그인에 성공")
             await self.user_profile_accessor.set_user_logged_in(
                 step_context.context, step_context.context.activity.from_property
             )
