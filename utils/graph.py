@@ -17,7 +17,11 @@ def get_meetings(token, user_id, start_time=None, end_time=None):
     query_params = {"startdatetime": start_time, "enddatetime": end_time}
     headers = {"Authorization": f"Bearer {token}", "Prefer": 'outlook.timezone="Pacific Standard Time"'}
     response = requests.get(url, params=query_params, headers=headers)
-    response.raise_for_status()  # If the request fails, this will raise a HTTPError
+    try:
+        response.raise_for_status()  # If the request fails, this will raise a HTTPError
+    except requests.exceptions.HTTPError as e:
+        print(e)
+        return e
 
     meetings = response.json()
     return meetings["value"]
