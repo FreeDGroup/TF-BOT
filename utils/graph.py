@@ -20,8 +20,7 @@ def get_meetings(token, user_id, start_time=None, end_time=None):
     try:
         response.raise_for_status()  # If the request fails, this will raise a HTTPError
     except requests.exceptions.HTTPError as e:
-        print(e)
-        return e
+        return str(e)
 
     meetings = response.json()
     return meetings["value"]
