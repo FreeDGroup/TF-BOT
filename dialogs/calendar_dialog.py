@@ -30,6 +30,6 @@ class CalendarDialog(MainDialog):
     async def test_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         if step_context.result:
             token = step_context.result
-            result = graph.get_meetings(token, "me")
+            result = graph.get_meetings(token, "meeting.room.2f@freedgrouptech.com")
             await step_context.context.send_activity(result)
         return await step_context.end_dialog()
