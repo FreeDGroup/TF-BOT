@@ -22,17 +22,21 @@ class CalendarDialog(MainDialog):
                 [
                     self.prompt_step,
                     self.login_step,
-                    self.test_step,
+                    self.calendar_step,
                 ],
             )
         )
 
-    async def test_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def calendar_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         if step_context.result:
             token = step_context.result
-            if step_context.values["user_input"].startwith("2층"):
+            if step_context.values["user_input"].startswith("2층"):
                 result = graph.get_meetings(token, "meeting.room.2f@freedgrouptech.com")
-            elif step_context.values["user_input"].startwith("3층"):
+            elif step_context.values["user_input"].startswith("3층"):
                 result = graph.get_meetings(token, "meeting.room.3f@freedgrouptech.com")
-            await step_context.context.send_activity(result)
+            elif step_context.values["user_input"].startswith("4층"):
+                result = graph.get_meetings(token, "meeting.room.4f@freedgrouptech.com")
+            elif step_context.values["user_input"].startswith("5층"):
+                result = graph.get_meetings(token, "meeting.room.5f@freedgrouptech.com")
+            await step_context.context.send_activity(str(result))
         return await step_context.end_dialog()
