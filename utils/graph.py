@@ -22,7 +22,7 @@ def get_meetings(token, user_id, start_time=None, end_time=None):
     }
     headers = {"Authorization": f"Bearer {token}", "Prefer": 'outlook.timezone="Asia/Seoul"'}
     with requests.Session() as session:
-        response = session.post(url, headers=headers, body=body)
+        response = session.post(url, headers=headers, json=body)
     try:
         response.raise_for_status()  # If the request fails, this will raise a HTTPError
     except requests.exceptions.HTTPError as e:
