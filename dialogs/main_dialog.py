@@ -43,6 +43,7 @@ class MainDialog(LogoutDialog):
         self.initial_dialog_id = "WFDialog"
 
     async def prompt_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        step_context.values["user_input"] = step_context.context.activity.text
         return await step_context.begin_dialog(OAuthPrompt.__name__)
 
     async def login_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -51,7 +52,8 @@ class MainDialog(LogoutDialog):
             await self.user_profile_accessor.set_user_logged_in(
                 step_context.context, step_context.context.activity.from_property
             )
-            await step_context.context.send_activity(step_context.result.token)
+            if step_context.values["user_input"] == "token":
+                await step_context.context.send_activity(step_context.result.token)
             return await step_context.next(step_context.result.token)
         else:
             await step_context.context.send_activity("로그인에 실패했습니다 다시 시도해주세요.")
