@@ -9,7 +9,7 @@ from botbuilder.dialogs import (
 )
 
 from dialogs.main_dialog import MainDialog
-from utils import graph
+from utils import graph, openai
 
 
 class CalendarDialog(MainDialog):
@@ -39,7 +39,9 @@ class CalendarDialog(MainDialog):
             elif step_context.values["user_input"].startswith("5층"):
                 result = graph.get_meetings(token, "meeting.room.5f@freedgrouptech.com")
             else:
-                result = "다시 시도해주세요"
-            await step_context.context.send_activity(str(result))
+                return await step_context.end_dialog()
+
+            ai_generated = openai.get_meeting_schedule(result, step_context.values["user_input"])
+            await step_context.context.send_activity(ai_generated)
 
         return await step_context.end_dialog()
