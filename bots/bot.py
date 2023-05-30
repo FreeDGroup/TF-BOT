@@ -76,7 +76,7 @@ class MyBot(TeamsActivityHandler):
                 else:
                     turn_context.activity.text = turn_context.activity.text
                 ai_parsed_category = openai_helper.get_parsed_question_category(turn_context.activity.text)
-                if ai_parsed_category == 1:
+                if type(ai_parsed_category) in (str, int) and int(ai_parsed_category) == 1:
                     self.conversation_state.create_property("DialogState")
                     await DialogHelper.run_dialog(
                         CalendarDialog.__name__,
