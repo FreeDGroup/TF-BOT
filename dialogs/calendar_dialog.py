@@ -80,10 +80,9 @@ class CalendarDialog(MainDialog):
             )
 
             if type(ai_generated) == dict:
-                if ai_generated["floor"]:
-                    floors = [f"meeting.room.{x}f@freedgrouptech.com" for x in ai_generated["floor"]]
-                else:
-                    floors = [f"meeting.room.{x}f@freedgrouptech.com" for x in [2, 3, 4, 5]]
+                if not ai_generated["floor"]:
+                    ai_generated["floor"] = [2, 3, 4, 5]
+                floors = [f"meeting.room.{x}f@freedgrouptech.com" for x in ai_generated["floor"]]
                 result = graph.get_meetings(token, floors)
                 answer = await process_question(ai_generated["floor"], ai_generated["datetime"], result)
                 await step_context.context.send_activity(answer)
