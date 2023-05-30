@@ -1,6 +1,15 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+# Graph API로부터 받아온 데이터 예시
+# meetings = [{"start": "2023-05-29T15:30:00.0000000", "end": "2023-05-29T16:00:00.0000000"},
+#             {"start": "2023-05-29T17:00:00.0000000", "end": "2023-05-29T18:30:00.0000000"},]
+# # 시간 데이터 파싱 예시
+# parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('0.0000000', '')),
+#                     datetime.datetime.fromisoformat(meeting['end'].replace('0.0000000', ''))) for meeting in meetings]
+# 팀즈앱에 대한 질문 처리 함수
+import datetime
+
 from botbuilder.core import UserState
 from botbuilder.dialogs import (
     DialogTurnResult,
@@ -12,26 +21,31 @@ from dialogs.main_dialog import MainDialog
 from utils import graph, openai_helper
 
 
-import datetime
+def process_question(floor: int, q_datetime: str, meetings: list):
+    # Query datetime
+    query_datetime = datetime.datetime.fromisoformat(q_datetime)
 
-# Graph API로부터 받아온 데이터 예시
-# meetings = [{"start": "2023-05-29T15:30:00.0000000", "end": "2023-05-29T16:00:00.0000000"}, 
-#             {"start": "2023-05-29T17:00:00.0000000", "end": "2023-05-29T18:30:00.0000000"},]
+    # Parsing meetings
+    parsed_meetings = [
+        (
+            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")),
+            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")),
+        )
+        for meeting in meetings
+    ]
 
-# # 시간 데이터 파싱 예시
-# parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('0.0000000', '')), 
-#                     datetime.datetime.fromisoformat(meeting['end'].replace('0.0000000', ''))) for meeting in meetings]
+    # Filtering meetings
+    filtered_meetings = [(start, end) for start, end in parsed_meetings if start >= query_datetime]
+    n_meetings = len(filtered_meetings)
 
-# 팀즈앱에 대한 질문 처리 함수
-def process_question(floor, meetings):
-    parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('.0000000', '')), 
-                        datetime.datetime.fromisoformat(meeting['end'].replace('.0000000', ''))) for meeting in meetings]
-    n_meetings = len(parsed_meetings)
     if n_meetings > 0:
-        time_ranges = ', '.join([f"{start.strftime('%H시%M분')}~{end.strftime('%H시%M분')}" for start, end in parsed_meetings])
-        answer = f"{floor}층 미팅룸은 오늘 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다."
+        time_ranges = ", ".join(
+            [f"{start.strftime('%H시%M분')}~{end.strftime('%H시%M분')}" for start, end in filtered_meetings]
+        )
+        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%Y년 %m월 %d일 %H시%M분')} 이후 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다."  # noqa: E501
     else:
-        answer = f"{floor}층 미팅룸은 오늘 예약이 없습니다."
+        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%Y년 %m월 %d일 %H시%M분')} 이후 예약이 없습니다."
+
     return answer
 
 
@@ -66,7 +80,11 @@ class CalendarDialog(MainDialog):
                 return await step_context.end_dialog()
 
             await step_context.context.send_activity("답변을 준비중입니다.")
-            ai_generated = openai_helper.get_meeting_schedule(result, "오늘 미팅룸 사용가능한 시간 알려줘")
-            await step_context.context.send_activity(ai_generated)
+            ai_generated = openai_helper.get_parsed_question_for_meeting_schedule(step_context.values["user_input"])
+            if ai_generated:
+                answer = process_question(ai_generated["floor"], ai_generated["datetime"], result)
+                await step_context.context.send_activity(answer)
+            else:
+                await step_context.context.send_activity("죄송합니다. 답변을 찾을 수 없습니다.")
 
         return await step_context.end_dialog()
