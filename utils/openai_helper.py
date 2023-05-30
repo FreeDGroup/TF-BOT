@@ -38,7 +38,7 @@ async def get_parsed_question_for_meeting_schedule(user_input) -> dict:
         return {}
 
 
-async def get_parsed_question_category(user_input) -> int | None:
+async def get_parsed_question_category(user_input) -> int | str:
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
@@ -58,8 +58,8 @@ async def get_parsed_question_category(user_input) -> int | None:
             timeout=30,
         )
         return json.loads(response["choices"][0]["message"]["content"])["category"]
-    except Exception:
-        return response["choices"][0]["message"]["content"]
+    except Exception as e:
+        return str(e)
 
 
 # import asyncio
