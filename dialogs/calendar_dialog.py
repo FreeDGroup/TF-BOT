@@ -24,8 +24,8 @@ import datetime
 
 # 팀즈앱에 대한 질문 처리 함수
 def process_question(floor, meetings):
-    parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('0.0000000', '')), 
-                        datetime.datetime.fromisoformat(meeting['end'].replace('0.0000000', ''))) for meeting in meetings]
+    parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('.0000000', '')), 
+                        datetime.datetime.fromisoformat(meeting['end'].replace('.0000000', ''))) for meeting in meetings]
     n_meetings = len(parsed_meetings)
     if n_meetings > 0:
         time_ranges = ', '.join([f"{start.strftime('%H시%M분')}~{end.strftime('%H시%M분')}" for start, end in parsed_meetings])
