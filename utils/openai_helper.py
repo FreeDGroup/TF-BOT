@@ -46,7 +46,7 @@ async def get_parsed_question_category(user_input) -> int | None:
                 {
                     "role": "user",
                     "content": f"""
-                        사용자 질문에 맞는 카테고리를 int 타입의 "category" key 를 가진 JSON 타입으로 리턴해줘
+                        사용자 질문을 아래 카테고리중에서 골라서 int 타입의 "category" key 를 가진 JSON 타입으로 리턴해줘
                         1. 미팅룸 확인
                         2. 미팅룸 예약
                         3. 유저 출근/재택 확인
@@ -58,9 +58,9 @@ async def get_parsed_question_category(user_input) -> int | None:
         )
         return json.loads(response["choices"][0]["message"]["content"])["category"]
     except Exception:
-        return None
+        return response["choices"][0]["message"]["content"]
 
 
 # import asyncio
 # print(asyncio.get_event_loop().run_until_complete(get_parsed_question_for_meeting_schedule("미팅룸 오후 5시 이후")))
-# print(asyncio.get_event_loop().run_until_complete(get_parsed_question_category("다음주 화요일 3층 비어있어?")))
+# print(asyncio.get_event_loop().run_until_complete(get_parsed_question_category("미팅룸 3층 비어있는지 확인해줘")))
