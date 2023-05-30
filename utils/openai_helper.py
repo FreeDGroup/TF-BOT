@@ -21,8 +21,8 @@ def get_meeting_schedule(values, user_input):
                 "role": "system",
                 "content": "이것은 모든 예약된 미팅룸의 데이터입니다. JSON 형식으로 제공되며 각 미팅은 'start', 'end' 정보를 포함하고 있습니다: " + str(values),
             },
-            {"role": "user", "content": user_input},
             {"role": "system", "content": "사용중인 시간을 보여주고, 없다면 사용가능하다고 알려줘"},
+            {"role": "user", "content": user_input},
         ],
     )
 

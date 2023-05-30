@@ -41,6 +41,7 @@ class CalendarDialog(MainDialog):
             else:
                 return await step_context.end_dialog()
 
+            await step_context.context.send_activity("답변을 준비중입니다.")
             ai_generated = openai_helper.get_meeting_schedule(result, "오늘 미팅룸 사용가능한 시간 알려줘")
             await step_context.context.send_activity(ai_generated)
 
