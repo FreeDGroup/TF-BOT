@@ -6,11 +6,11 @@ from config import DefaultConfig
 
 CONFIG = DefaultConfig()
 
-openai.api_key = CONFIG.OPENAI_SECRET_KEY
 
 
 def get_meeting_schedule(values, user_input):
     # Send the user question to the model and get a response
+    openai.api_key = CONFIG.OPENAI_SECRET_KEY
     start_time = datetime.now()
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",  # As of my last update in September 2021, gpt-3.5-turbo is the latest available model
@@ -30,9 +30,9 @@ def get_meeting_schedule(values, user_input):
     return response["choices"][0]["message"]["content"]
 
 
-values = [
-    {"start": "2023-05-29T15:00:00.0000000", "end": "2023-05-29T16:00:00.0000000"},
-    {"start": "2023-05-30T15:00:00.0000000", "end": "2023-05-30T16:00:00.0000000"},
-]
+# values = [
+#     {"start": "2023-05-29T15:00:00.0000000", "end": "2023-05-29T16:00:00.0000000"},
+#     {"start": "2023-05-30T15:00:00.0000000", "end": "2023-05-30T16:00:00.0000000"},
+# ]
 
-print(get_meeting_schedule(values, "오늘 미팅룸 사용가능한 시간 알려줘"))
+# print(get_meeting_schedule(values, "오늘 미팅룸 사용가능한 시간 알려줘"))
