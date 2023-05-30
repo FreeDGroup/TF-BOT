@@ -79,7 +79,7 @@ class CalendarDialog(MainDialog):
                 step_context.values["user_input"]
             )
 
-            if ai_generated:
+            if type(ai_generated) == dict:
                 if ai_generated["floor"]:
                     floors = [f"meeting.room.{x}f@freedgrouptech.com" for x in ai_generated["floor"]]
                 else:
@@ -88,6 +88,6 @@ class CalendarDialog(MainDialog):
                 answer = await process_question(ai_generated["floor"], ai_generated["datetime"], result)
                 await step_context.context.send_activity(answer)
             else:
-                await step_context.context.send_activity("죄송합니다. 답변을 찾을 수 없습니다.")
+                await step_context.context.send_activity(f"죄송합니다. 답변을 찾을 수 없습니다. <br> {ai_generated}")
 
         return await step_context.end_dialog()
