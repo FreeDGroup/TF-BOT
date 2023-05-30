@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import requests
 
 
-def get_meetings(token, user_id, start_time=None, end_time=None):
+def get_meetings(token, users, start_time=None, end_time=None):
     if start_time is None:
         start_time = datetime.now()
 
@@ -15,7 +15,7 @@ def get_meetings(token, user_id, start_time=None, end_time=None):
 
     url = "https://graph.microsoft.com/v1.0/me/calendar/getSchedule"
     body = {
-        "schedules": [user_id],
+        "schedules": users,
         "startTime": {"dateTime": start_time, "timeZone": "Asia/Seoul"},
         "endTime": {"dateTime": end_time, "timeZone": "Asia/Seoul"},
         "availabilityViewInterval": 60,

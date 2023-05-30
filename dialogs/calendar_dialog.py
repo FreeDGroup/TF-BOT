@@ -68,14 +68,13 @@ class CalendarDialog(MainDialog):
         if step_context.result:
             token = step_context.result
             if step_context.values["user_input"].startswith("2층"):
-                result = graph.get_meetings(token, "meeting.room.2f@freedgrouptech.com")
-
+                result = graph.get_meetings(token, ["meeting.room.2f@freedgrouptech.com"])
             elif step_context.values["user_input"].startswith("3층"):
-                result = graph.get_meetings(token, "meeting.room.3f@freedgrouptech.com")
+                result = graph.get_meetings(token, ["meeting.room.3f@freedgrouptech.com"])
             elif step_context.values["user_input"].startswith("4층"):
-                result = graph.get_meetings(token, "meeting.room.4f@freedgrouptech.com")
+                result = graph.get_meetings(token, ["meeting.room.4f@freedgrouptech.com"])
             elif step_context.values["user_input"].startswith("5층"):
-                result = graph.get_meetings(token, "meeting.room.5f@freedgrouptech.com")
+                result = graph.get_meetings(token, ["meeting.room.5f@freedgrouptech.com"])
             else:
                 return await step_context.end_dialog()
 
