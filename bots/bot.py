@@ -77,6 +77,8 @@ class MyBot(TeamsActivityHandler):
                     turn_context.activity.text = turn_context.activity.text
                 ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
                 if ai_parsed_category and int(ai_parsed_category) == 1:
+                    await turn_context.send_activity("미팅룸 예약은 아직 지원하지 않습니다.")
+                elif ai_parsed_category and int(ai_parsed_category) == 2:
                     self.conversation_state.create_property("DialogState")
                     await DialogHelper.run_dialog(
                         CalendarDialog.__name__,
