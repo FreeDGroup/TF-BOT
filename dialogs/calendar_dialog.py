@@ -10,6 +10,7 @@
 # 팀즈앱에 대한 질문 처리 함수
 import datetime
 
+import pytz
 from botbuilder.core import UserState
 from botbuilder.dialogs import (
     DialogTurnResult,
@@ -23,18 +24,16 @@ from utils import graph, openai_helper
 
 async def process_question(floor: int, q_datetime: str, meetings: list):
     # Query datetime
-    query_datetime = datetime.datetime.fromisoformat(q_datetime).astimezone(
-        datetime.timezone(datetime.timedelta(hours=9))
-    )
+    query_datetime = datetime.datetime.fromisoformat(q_datetime).replace(tzinfo=pytz.timezone("Asia/Seoul"))
 
     # Parsing meetings
     parsed_meetings = [
         (
-            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).astimezone(
-                datetime.timezone(datetime.timedelta(hours=9))
+            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).replace(
+                tzinfo=pytz.timezone("Asia/Seoul")
             ),
-            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).astimezone(
-                datetime.timezone(datetime.timedelta(hours=9))
+            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).replace(
+                tzinfo=pytz.timezone("Asia/Seoul")
             ),
         )
         for meeting in meetings
