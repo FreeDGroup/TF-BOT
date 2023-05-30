@@ -50,7 +50,7 @@ def process_question(floor: int, q_datetime: str, meetings: list):
         )
         answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다."  # noqa: E501
     else:
-        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%Y년 %m월 %d일 %H시%M분')} 이후 예약이 없습니다."
+        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 예약이 없습니다."
 
     return answer
 
