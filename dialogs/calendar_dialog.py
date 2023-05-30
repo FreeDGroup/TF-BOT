@@ -21,7 +21,7 @@ from dialogs.main_dialog import MainDialog
 from utils import graph, openai_helper
 
 
-def process_question(floor: int, q_datetime: str, meetings: list):
+async def process_question(floor: int, q_datetime: str, meetings: list):
     # Query datetime
     query_datetime = datetime.datetime.fromisoformat(q_datetime).astimezone(
         datetime.timezone(datetime.timedelta(hours=9))
@@ -85,9 +85,11 @@ class CalendarDialog(MainDialog):
                 return await step_context.end_dialog()
 
             await step_context.context.send_activity("답변을 준비중입니다.")
-            ai_generated = openai_helper.get_parsed_question_for_meeting_schedule(step_context.values["user_input"])
+            ai_generated = await openai_helper.get_parsed_question_for_meeting_schedule(
+                step_context.values["user_input"]
+            )
             if ai_generated:
-                answer = process_question(ai_generated["floor"], ai_generated["datetime"], result)
+                answer = await process_question(ai_generated["floor"], ai_generated["datetime"], result)
                 await step_context.context.send_activity(answer)
             else:
                 await step_context.context.send_activity("죄송합니다. 답변을 찾을 수 없습니다.")

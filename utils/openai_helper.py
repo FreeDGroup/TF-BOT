@@ -11,7 +11,7 @@ CONFIG = DefaultConfig()
 openai.api_key = CONFIG.OPENAI_SECRET_KEY
 
 
-def get_parsed_question_for_meeting_schedule(user_input) -> dict:
+async def get_parsed_question_for_meeting_schedule(user_input) -> dict:
     # Send the user question to the model and get a response
     start_time = datetime.now()
     response = openai.ChatCompletion.create(
