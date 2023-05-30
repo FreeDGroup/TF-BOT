@@ -51,6 +51,7 @@ async def get_parsed_question_category(user_input) -> int | None:
                         2. 미팅룸 예약
                         3. 유저 출근/재택 확인
                         사용자 질문: {user_input}
+                        예시: {{"category": 1}}
                     """,
                 },
             ],
@@ -63,4 +64,4 @@ async def get_parsed_question_category(user_input) -> int | None:
 
 # import asyncio
 # print(asyncio.get_event_loop().run_until_complete(get_parsed_question_for_meeting_schedule("미팅룸 오후 5시 이후")))
-# print(asyncio.get_event_loop().run_until_complete(get_parsed_question_category("미팅룸 3층 비어있는지 확인해줘")))
+# print(asyncio.get_event_loop().run_until_complete(get_parsed_question_category("미팅룸 3층 예약가능해?")))
