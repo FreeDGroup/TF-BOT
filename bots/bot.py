@@ -70,14 +70,10 @@ class MyBot(TeamsActivityHandler):
             ):
                 await AttachmentsHandler().handle_incoming_attachment(turn_context)
             else:
-                # # UserProfileAccessor 생성
-                # user_profile_accessor = UserProfileAccessor(self.user_state)
-                # user_profile = await user_profile_accessor.get_user_profile(
-                #     turn_context, turn_context.activity.from_property
-                # )
-
-                # if not user_profile.is_logged_in or turn_context.activity.text in ("reset", "logout"):
-                #     # 로그인 안되어있는 경우
+                if "<at>Francis 봇</at>" in turn_context.activity.text:
+                    turn_context.activity.text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
+                else:
+                    turn_context.activity.text = turn_context.activity.text
                 self.conversation_state.create_property("DialogState")
                 await DialogHelper.run_dialog(
                     CalendarDialog.__name__,
@@ -92,10 +88,6 @@ class MyBot(TeamsActivityHandler):
             #     # 사용자가 로그인된 경우의 로직
             #     await turn_context.send_activity(f"안녕하세요, {user_profile.name} 님!")
 
-            # if "<at>Francis 봇</at>" in turn_context.activity.text:
-            #     text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
-            # else:
-            #     text = turn_context.activity.text
             # if text == "/":
             #     await HelpersHandler().send_help_message(turn_context)
             # elif text.startswith("/회의실"):
