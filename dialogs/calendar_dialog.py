@@ -15,15 +15,17 @@ from utils import graph, openai_helper
 import datetime
 
 # Graph API로부터 받아온 데이터 예시
-meetings = [{"start": "2023-05-29T15:30:00.0000000", "end": "2023-05-29T16:00:00.0000000"}, 
-            {"start": "2023-05-29T17:00:00.0000000", "end": "2023-05-29T18:30:00.0000000"},]
+# meetings = [{"start": "2023-05-29T15:30:00.0000000", "end": "2023-05-29T16:00:00.0000000"}, 
+#             {"start": "2023-05-29T17:00:00.0000000", "end": "2023-05-29T18:30:00.0000000"},]
 
-# 시간 데이터 파싱 예시
-parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('0.0000000', '')), 
-                    datetime.datetime.fromisoformat(meeting['end'].replace('0.0000000', ''))) for meeting in meetings]
+# # 시간 데이터 파싱 예시
+# parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('0.0000000', '')), 
+#                     datetime.datetime.fromisoformat(meeting['end'].replace('0.0000000', ''))) for meeting in meetings]
 
 # 팀즈앱에 대한 질문 처리 함수
-def process_question(floor):
+def process_question(floor, meetings):
+    parsed_meetings = [(datetime.datetime.fromisoformat(meeting['start'].replace('0.0000000', '')), 
+                        datetime.datetime.fromisoformat(meeting['end'].replace('0.0000000', ''))) for meeting in meetings]
     n_meetings = len(parsed_meetings)
     if n_meetings > 0:
         time_ranges = ', '.join([f"{start.strftime('%H시%M분')}~{end.strftime('%H시%M분')}" for start, end in parsed_meetings])
@@ -53,7 +55,7 @@ class CalendarDialog(MainDialog):
             token = step_context.result
             if step_context.values["user_input"].startswith("2층"):
                 result = graph.get_meetings(token, "meeting.room.2f@freedgrouptech.com")
-                
+
             elif step_context.values["user_input"].startswith("3층"):
                 result = graph.get_meetings(token, "meeting.room.3f@freedgrouptech.com")
             elif step_context.values["user_input"].startswith("4층"):
