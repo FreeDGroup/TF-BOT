@@ -23,13 +23,19 @@ from utils import graph, openai_helper
 
 def process_question(floor: int, q_datetime: str, meetings: list):
     # Query datetime
-    query_datetime = datetime.datetime.fromisoformat(q_datetime)
+    query_datetime = datetime.datetime.fromisoformat(q_datetime).astimezone(
+        datetime.timezone(datetime.timedelta(hours=9))
+    )
 
     # Parsing meetings
     parsed_meetings = [
         (
-            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")),
-            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")),
+            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).astimezone(
+                datetime.timezone(datetime.timedelta(hours=9))
+            ),
+            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).astimezone(
+                datetime.timezone(datetime.timedelta(hours=9))
+            ),
         )
         for meeting in meetings
     ]
@@ -42,7 +48,7 @@ def process_question(floor: int, q_datetime: str, meetings: list):
         time_ranges = ", ".join(
             [f"{start.strftime('%H시%M분')}~{end.strftime('%H시%M분')}" for start, end in filtered_meetings]
         )
-        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%Y년 %m월 %d일 %H시%M분')} 이후 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다."  # noqa: E501
+        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다."  # noqa: E501
     else:
         answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%Y년 %m월 %d일 %H시%M분')} 이후 예약이 없습니다."
 

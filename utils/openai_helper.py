@@ -36,4 +36,4 @@ def get_parsed_question_for_meeting_schedule(user_input) -> dict:
         return {}
 
 
-# print(get_parsed_question_for_meeting_schedule("2층에 내일 미팅이 있어?"))
+# print(get_parsed_question_for_meeting_schedule("2층에 미팅 있어?"))
