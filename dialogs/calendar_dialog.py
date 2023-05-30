@@ -29,11 +29,11 @@ async def process_question(floor: int, q_datetime: str, meetings: list):
     # Parsing meetings
     parsed_meetings = [
         (
-            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).replace(
-                tzinfo=pytz.timezone("Asia/Seoul")
+            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).astimezone(
+                datetime.timezone(datetime.timedelta(hours=9))
             ),
-            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).replace(
-                tzinfo=pytz.timezone("Asia/Seoul")
+            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).astimezone(
+                datetime.timezone(datetime.timedelta(hours=9))
             ),
         )
         for meeting in meetings

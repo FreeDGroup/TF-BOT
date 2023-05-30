@@ -37,4 +37,5 @@ async def get_parsed_question_for_meeting_schedule(user_input) -> dict:
         return {}
 
 
-# print(get_parsed_question_for_meeting_schedule("2층에 미팅 있어?"))
+# import asyncio
+# print(asyncio.get_event_loop().run_until_complete(get_parsed_question_for_meeting_schedule("3층 미팅룸 오후 5시 이후")))
