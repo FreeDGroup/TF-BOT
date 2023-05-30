@@ -22,34 +22,36 @@ from dialogs.main_dialog import MainDialog
 from utils import graph, openai_helper
 
 
-async def process_question(floor: int, q_datetime: str, meetings: list):
+async def process_question(floors: list[int], q_datetime: str, meetings: list):
     # Query datetime
     query_datetime = datetime.datetime.fromisoformat(q_datetime).replace(tzinfo=pytz.timezone("Asia/Seoul"))
+    answer = ""
+    for floor in floors:
+        # Parsing meetings
+        parsed_meetings = [
+            (
+                datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).astimezone(
+                    datetime.timezone(datetime.timedelta(hours=9))
+                ),
+                datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).astimezone(
+                    datetime.timezone(datetime.timedelta(hours=9))
+                ),
+            )
+            for meeting in meetings
+            if meeting["schedule_id"] == f"meeting.room.{floor}f@freedgrouptech.com"
+        ]
 
-    # Parsing meetings
-    parsed_meetings = [
-        (
-            datetime.datetime.fromisoformat(meeting["start"].replace(".0000000", "")).astimezone(
-                datetime.timezone(datetime.timedelta(hours=9))
-            ),
-            datetime.datetime.fromisoformat(meeting["end"].replace(".0000000", "")).astimezone(
-                datetime.timezone(datetime.timedelta(hours=9))
-            ),
-        )
-        for meeting in meetings
-    ]
+        # Filtering meetings
+        filtered_meetings = [(start, end) for start, end in parsed_meetings if start >= query_datetime]
+        n_meetings = len(filtered_meetings)
 
-    # Filtering meetings
-    filtered_meetings = [(start, end) for start, end in parsed_meetings if start >= query_datetime]
-    n_meetings = len(filtered_meetings)
-
-    if n_meetings > 0:
-        time_ranges = ", ".join(
-            [f"`{start.strftime('%H시%M분')} ~ {end.strftime('%H시%M분')}`" for start, end in filtered_meetings]
-        )
-        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다."  # noqa: E501
-    else:
-        answer = f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 예약이 없습니다."
+        if n_meetings > 0:
+            time_ranges = ", ".join(
+                [f"`{start.strftime('%H시%M분')} ~ {end.strftime('%H시%M분')}`" for start, end in filtered_meetings]
+            )
+            answer += f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 {n_meetings}개의 예약이 있으며 사용 시간은 {time_ranges} 입니다. </br>"  # noqa: E501
+        else:
+            answer += f"{floor}층 미팅룸에는 {query_datetime.strftime('%d일 %H시%M분')} 이후 예약이 없습니다. </br>"
 
     return answer
 
@@ -72,22 +74,17 @@ class CalendarDialog(MainDialog):
     async def calendar_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         if step_context.result:
             token = step_context.result
-            if step_context.values["user_input"].startswith("2층"):
-                result = graph.get_meetings(token, ["meeting.room.2f@freedgrouptech.com"])
-            elif step_context.values["user_input"].startswith("3층"):
-                result = graph.get_meetings(token, ["meeting.room.3f@freedgrouptech.com"])
-            elif step_context.values["user_input"].startswith("4층"):
-                result = graph.get_meetings(token, ["meeting.room.4f@freedgrouptech.com"])
-            elif step_context.values["user_input"].startswith("5층"):
-                result = graph.get_meetings(token, ["meeting.room.5f@freedgrouptech.com"])
-            else:
-                return await step_context.end_dialog()
-
             await step_context.context.send_activity("답변을 준비중입니다.")
             ai_generated = await openai_helper.get_parsed_question_for_meeting_schedule(
                 step_context.values["user_input"]
             )
+
             if ai_generated:
+                if ai_generated["floor"]:
+                    floors = [f"meeting.room.{x}f@freedgrouptech.com" for x in ai_generated["floor"]]
+                else:
+                    floors = [f"meeting.room.{x}f@freedgrouptech.com" for x in [2, 3, 4, 5]]
+                result = graph.get_meetings(token, floors)
                 answer = await process_question(ai_generated["floor"], ai_generated["datetime"], result)
                 await step_context.context.send_activity(answer)
             else:

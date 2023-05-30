@@ -13,6 +13,7 @@ from botbuilder.schema import ChannelAccount
 from dialogs.attachments import AttachmentsHandler
 from dialogs.calendar_dialog import CalendarDialog
 from dialogs.main_dialog import MainDialog
+from utils import openai_helper
 from utils.dialog_helper import DialogHelper
 
 
@@ -74,12 +75,17 @@ class MyBot(TeamsActivityHandler):
                     turn_context.activity.text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
                 else:
                     turn_context.activity.text = turn_context.activity.text
-                self.conversation_state.create_property("DialogState")
-                await DialogHelper.run_dialog(
-                    CalendarDialog.__name__,
-                    self.dialogs,
-                    turn_context,
-                )
+                await turn_context.send_activity("질문을 분석중입니다.")
+                ai_parsed_category = openai_helper.get_parsed_question_category(turn_context.activity.text)
+                if ai_parsed_category == 1:
+                    self.conversation_state.create_property("DialogState")
+                    await DialogHelper.run_dialog(
+                        CalendarDialog.__name__,
+                        self.dialogs,
+                        turn_context,
+                    )
+                else:
+                    await turn_context.send_activity("아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요.")
         except Exception as e:
             error_traceback = traceback.format_exc()
 
