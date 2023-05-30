@@ -35,7 +35,8 @@ async def get_parsed_question_for_meeting_schedule(user_input) -> dict:
         # Print the model's response
         return json.loads(response["choices"][0]["message"]["content"])
     except Exception as e:
-        return response["choices"][0]["message"]["content"] + "<br>" + str(e)
+        print(response["choices"][0]["message"]["content"] + "<br>" + str(e))
+        return None
 
 
 async def get_parsed_question_category(user_input) -> int | None:
