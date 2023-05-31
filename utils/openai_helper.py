@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 import openai
 
@@ -13,7 +13,7 @@ openai.api_key = CONFIG.OPENAI_SECRET_KEY
 
 async def get_parsed_question_for_meeting_schedule(user_input) -> dict:
     # Send the user question to the model and get a response
-    start_time = datetime.now()
+    start_time = datetime.now().astimezone(timezone(timedelta(hours=9)))
     try:
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
