@@ -63,7 +63,7 @@ class CalendarDialog(MainDialog):
 
         self.add_dialog(
             WaterfallDialog(
-                "WFDialog",
+                "CalendarDialog",
                 [
                     self.prompt_step,
                     self.login_step,
@@ -71,6 +71,7 @@ class CalendarDialog(MainDialog):
                 ],
             )
         )
+        self.initial_dialog_id = "CalendarDialog"
 
     async def calendar_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         if step_context.result:

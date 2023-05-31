@@ -4,6 +4,7 @@
 from botbuilder.core import UserState
 from botbuilder.dialogs import (
     DialogTurnResult,
+    WaterfallDialog,
     WaterfallStepContext,
 )
 from botbuilder.dialogs.prompts import OAuthPrompt, OAuthPromptSettings
@@ -30,15 +31,15 @@ class MainDialog(LogoutDialog):
 
         # self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__))
 
-        # self.add_dialog(
-        #     WaterfallDialog(
-        #         "WFDialog",
-        #         [
-        #             self.prompt_step,
-        #             self.login_step,
-        #         ],
-        #     )
-        # )
+        self.add_dialog(
+            WaterfallDialog(
+                "WFDialog",
+                [
+                    self.prompt_step,
+                    self.login_step,
+                ],
+            )
+        )
 
         self.initial_dialog_id = "WFDialog"
 
