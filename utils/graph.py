@@ -1,11 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import requests
 
 
 def get_meetings(token, users, start_time=None, end_time=None):
     if start_time is None:
-        start_time = datetime.now()
+        start_time = datetime.now().astimezone(timezone(timedelta(hours=9)))
 
     if end_time is None:
         end_time = start_time + timedelta(days=7)  # default to one week of meetings
