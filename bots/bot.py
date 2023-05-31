@@ -1,3 +1,4 @@
+import textwrap
 import traceback
 from typing import List
 
@@ -79,15 +80,25 @@ class MyBot(TeamsActivityHandler):
                 if ai_parsed_category and int(ai_parsed_category) == 0:
                     # 명령어 도움 요청
                     self.conversation_state.create_property("DialogState")
-                    await turn_context.send_activity("명령어 도움말은 아직 지원하지 않습니다.")
+                    await turn_context.send_activity(
+                        textwrap.dedent(
+                            """\
+                            현재는 미팅룸 확인 이미지 url 변환이 가능합니다."""
+                        )
+                    )
                 elif ai_parsed_category and int(ai_parsed_category) == 1:
-                    # 미팅룸 예약
-                    await turn_context.send_activity("미팅룸 예약은 아직 지원하지 않습니다.")
-                elif ai_parsed_category and int(ai_parsed_category) == 2:
-                    # 미팅룸 사용 가능 여부 확인
+                    # 미팅룸 예약, 확인
                     self.conversation_state.create_property("DialogState")
                     await DialogHelper.run_dialog(
                         CalendarDialog.__name__,
+                        self.dialogs,
+                        turn_context,
+                    )
+                elif ai_parsed_category and int(ai_parsed_category) == 99:
+                    # 로그아웃
+                    self.conversation_state.create_property("DialogState")
+                    await DialogHelper.run_dialog(
+                        MainDialog.__name__,
                         self.dialogs,
                         turn_context,
                     )

@@ -51,9 +51,9 @@ async def get_parsed_question_category(user_input) -> int | None:
 
                         ---
                         명령어 도움 요청: 0
-                        미팅룸 예약하기: 1
-                        미팅룸 사용 가능 여부 확인만 하기: 2
-                        유저 출근/재택 확인: 3
+                        미팅룸 확인, 예약하기: 1
+                        유저 출근/재택 확인: 2
+                        리셋, 로그아웃: 99
                         ---
                         사용자 질문: {user_input}
                         예시: {{"category": 1}}
