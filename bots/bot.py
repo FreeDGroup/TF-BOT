@@ -109,8 +109,8 @@ class MyBot(TeamsActivityHandler):
                         turn_context,
                     )
                 else:
+                    answer = "아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요."
                     if ai_parsed_category:
-                        answer = "아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요."
                         await turn_context.send_activity(
                             textwrap.dedent(
                                 f"""\
