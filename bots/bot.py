@@ -82,7 +82,8 @@ class MyBot(TeamsActivityHandler):
                     await turn_context.send_activity(
                         textwrap.dedent(
                             """\
-                            현재는 미팅룸 확인 이미지 url 변환이 가능합니다."""
+                            현재는 미팅룸 확인 및 이미지 url 변환이 가능합니다.
+                            이미지 url 변환은 이미지를 첨부하면 자동으로 변환됩니다."""
                         )
                     )
                 elif ai_parsed_category and int(ai_parsed_category) == 1:
