@@ -109,14 +109,18 @@ class MyBot(TeamsActivityHandler):
                         turn_context,
                     )
                 else:
-                    await turn_context.send_activity(
-                        textwrap.dedent(
-                            f"""\
-                            아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요.
-                            <br>category: {ai_parsed_category['category']}
-                            <br>summary: {ai_parsed_category['summary']}"""
+                    if ai_parsed_category:
+                        answer = "아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요."
+                        await turn_context.send_activity(
+                            textwrap.dedent(
+                                f"""\
+                                {answer}
+                                <br>category: {ai_parsed_category['category']}
+                                <br>summary: {ai_parsed_category['summary']}"""
+                            )
                         )
-                    )
+                    else:
+                        await turn_context.send_activity({answer})
         except Exception as e:
             error_traceback = traceback.format_exc()
 
