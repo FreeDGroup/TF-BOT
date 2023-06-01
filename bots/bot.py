@@ -120,7 +120,7 @@ class MyBot(TeamsActivityHandler):
                             )
                         )
                     else:
-                        await turn_context.send_activity({answer})
+                        await turn_context.send_activity(f"{answer}")
         except Exception as e:
             error_traceback = traceback.format_exc()
 
