@@ -77,7 +77,7 @@ class MyBot(TeamsActivityHandler):
                 else:
                     turn_context.activity.text = turn_context.activity.text
                 ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
-                if ai_parsed_category and int(ai_parsed_category) == 0:
+                if ai_parsed_category is not None and int(ai_parsed_category) == 0:
                     # 명령어 도움 요청
                     await turn_context.send_activity(
                         textwrap.dedent(
