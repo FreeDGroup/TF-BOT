@@ -79,7 +79,6 @@ class MyBot(TeamsActivityHandler):
                 ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
                 if ai_parsed_category and int(ai_parsed_category) == 0:
                     # 명령어 도움 요청
-                    self.conversation_state.create_property("DialogState")
                     await turn_context.send_activity(
                         textwrap.dedent(
                             """\
