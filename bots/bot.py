@@ -77,7 +77,8 @@ class MyBot(TeamsActivityHandler):
                 else:
                     turn_context.activity.text = turn_context.activity.text
                 ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
-                if ai_parsed_category["category"] == 0:
+
+                if ai_parsed_category and ai_parsed_category["category"] == 0:
                     # 명령어 도움 요청
                     await turn_context.send_activity(
                         textwrap.dedent(
@@ -86,7 +87,7 @@ class MyBot(TeamsActivityHandler):
                             이미지 url 변환은 이미지를 첨부하면 자동으로 변환됩니다."""
                         )
                     )
-                elif ai_parsed_category["category"] == 1:
+                elif ai_parsed_category and ai_parsed_category["category"] == 1:
                     # 미팅룸 예약, 확인
                     self.conversation_state.create_property("DialogState")
                     await DialogHelper.run_dialog(
@@ -94,12 +95,12 @@ class MyBot(TeamsActivityHandler):
                         self.dialogs,
                         turn_context,
                     )
-                elif ai_parsed_category["category"] == 98:
+                elif ai_parsed_category and ai_parsed_category["category"] == 98:
                     # 그 외 질문/요청
                     await turn_context.send_activity(
                         f"`{ai_parsed_category['summary']}` 은 아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요."
                     )
-                elif ai_parsed_category["category"] == 99:
+                elif ai_parsed_category and ai_parsed_category["category"] == 99:
                     # 로그아웃
                     self.conversation_state.create_property("DialogState")
                     await DialogHelper.run_dialog(
