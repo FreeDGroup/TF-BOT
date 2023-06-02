@@ -22,7 +22,7 @@ async def get_parsed_question_for_meeting_schedule(user_input) -> dict:
                     "role": "user",
                     "content": f"""
                         현재시간: {start_time.strftime('%Y년 %m월 %d일 %H시')}
-                        사용자의 질문을 파싱하고 날짜, 시간, 몇층인지에 대한 데이터를 'datetime', 'floor' 키를 가지는 JSON 타입으로 리턴해줘
+                        사용자의 질문을 파싱하고 날짜와 시간, 몇층인지에 대한 데이터를 'datetime', 'floor' 키를 가지는 JSON 타입으로 리턴해줘
                         층에 대한 정보가 없다면 null로 리턴해줘
                         floor는 list 에 포함된 int, datetime은 타임존 없는 ISO8601 포맷으로 리턴해줘
                         사용자 질문: {user_input}

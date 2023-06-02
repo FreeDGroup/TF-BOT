@@ -8,7 +8,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 This sample **requires** prerequisites in order to run.
 
-### Install Python 3.8
+### Install Python 3.10
 
 ## Running the sample
 
