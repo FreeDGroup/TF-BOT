@@ -1,6 +1,5 @@
 import textwrap
 import traceback
-from typing import List
 
 from botbuilder.core import (
     ConversationState,
@@ -9,7 +8,6 @@ from botbuilder.core import (
 )
 from botbuilder.core.teams import TeamsActivityHandler
 from botbuilder.dialogs import DialogSet
-from botbuilder.schema import ChannelAccount
 
 from dialogs.attachments import AttachmentsHandler
 from dialogs.calendar_dialog import CalendarDialog
@@ -38,12 +36,12 @@ class MyBot(TeamsActivityHandler):
         await self.conversation_state.save_changes(turn_context, False)
         await self.user_state.save_changes(turn_context, False)
 
-    async def on_members_added_activity(self, members_added: List[ChannelAccount], turn_context: TurnContext):
-        for member in members_added:
-            # Greet anyone that was not the target (recipient) of this message.
-            # To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
-            if member.id != turn_context.activity.recipient.id:
-                await turn_context.send_activity("안녕하세요 저는 francis 봇입니다. 초기 로그인을 위해 아무 글자나 입력해주세요")
+    # async def on_members_added_activity(self, members_added: List[ChannelAccount], turn_context: TurnContext):
+    #     for member in members_added:
+    #         # Greet anyone that was not the target (recipient) of this message.
+    #         # To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
+    #         if member.id != turn_context.activity.recipient.id:
+    #             await turn_context.send_activity("안녕하세요 저는 francis 봇입니다. 초기 로그인을 위해 아무 글자나 입력해주세요")
 
     async def on_token_response_event(self, turn_context: TurnContext):
         # Run the Dialog with the new Token Response Event Activity.
