@@ -74,12 +74,17 @@ class MyBot(TeamsActivityHandler):
                     turn_context.activity.text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
                 else:
                     turn_context.activity.text = turn_context.activity.text
-                ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
+                try:
+                    ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
+                except Exception as e:
+                    ai_parsed_category = None
+                    ai_parsed_error = f"{str(e)}"
                 if turn_context.activity.text == "openaikey":
                     await turn_context.send_activity(
                         textwrap.dedent(
                             f"""\
-                            현재 OpenAI API key는 {openai_helper.openai.api_key}입니다."""
+                            현재 OpenAI API key는 {openai_helper.openai.api_key}입니다.
+                            <br>{ai_parsed_error}"""
                         )
                     )
                 if ai_parsed_category and ai_parsed_category["category"] == 0:
