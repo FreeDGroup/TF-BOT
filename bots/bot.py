@@ -114,6 +114,7 @@ class MyBot(TeamsActivityHandler):
                     ai_generated = await openai_helper.gen_answer(
                         f"""
                         사용자 입력에 대해 최대한 짧게 답변
+                        인풋이 두가지를 비교하는 'vs' 이 포함된 질문이라면 둘중에 하나를 선택해서 답변
                         사용자 입력: {turn_context.activity.text}"""
                     )
                     await turn_context.send_activity(ai_generated)
