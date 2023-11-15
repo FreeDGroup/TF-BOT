@@ -93,6 +93,10 @@ class MyBot(TeamsActivityHandler):
                         self.dialogs,
                         turn_context,
                     )
+                elif ai_parsed_category and ai_parsed_category["category"] == 3:
+                    # 생일 축하에 대한 감사
+                    ai_generated = await openai_helper.gen_answer("생일 축하에 대해 감사 메세지를 써줘")
+                    await turn_context.send_activity(ai_generated)
                 elif ai_parsed_category and ai_parsed_category["category"] == 98:
                     # 그 외 질문/요청
                     await turn_context.send_activity(

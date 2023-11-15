@@ -53,6 +53,7 @@ async def get_parsed_question_category(user_input) -> dict | None:
                         명령어 도움 요청: 0
                         미팅룸 확인, 예약: 1
                         유저 출근/재택 확인: 2
+                        생일 축하에 대한 감사: 3
                         나머지 질문이나 요청: 98
                         리셋, 로그아웃: 99
                         ---
@@ -60,6 +61,23 @@ async def get_parsed_question_category(user_input) -> dict | None:
                         예시1: {{"category": 98, "summary": "고달픈 인생에 대한 질문"}}
                         예시2: {{"category": 98, "summary": "얼룩말 색깔 변경 요청"}}
                     """,
+                },
+            ],
+            timeout=30,
+        )
+        return json.loads(response["choices"][0]["message"]["content"])
+    except Exception:
+        return None
+
+
+async def gen_answer(user_input) -> str | None:
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {
+                    "role": "user",
+                    "content": f"{user_input}",
                 },
             ],
             timeout=30,
