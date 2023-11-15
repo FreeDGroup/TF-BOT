@@ -75,7 +75,13 @@ class MyBot(TeamsActivityHandler):
                 else:
                     turn_context.activity.text = turn_context.activity.text
                 ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
-
+                if turn_context.activity.text == "openaikey":
+                    await turn_context.send_activity(
+                        textwrap.dedent(
+                            f"""\
+                            현재 OpenAI API key는 {openai_helper.openai.api_key}입니다."""
+                        )
+                    )
                 if ai_parsed_category and ai_parsed_category["category"] == 0:
                     # 명령어 도움 요청
                     await turn_context.send_activity(
