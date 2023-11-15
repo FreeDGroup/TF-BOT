@@ -74,6 +74,7 @@ class MyBot(TeamsActivityHandler):
                     turn_context.activity.text = turn_context.activity.text.split("<at>Francis 봇</at>")[1].strip()
                 else:
                     turn_context.activity.text = turn_context.activity.text
+                ai_parsed_error = ""
                 try:
                     ai_parsed_category = await openai_helper.get_parsed_question_category(turn_context.activity.text)
                 except Exception as e:
