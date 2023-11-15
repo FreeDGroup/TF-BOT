@@ -8,7 +8,7 @@ botbuilder-integration-aiohttp = ">=4.14.3"
 botbuilder-dialogs = ">=4.14.3"
 boto3 = "==1.17.64"
 pytz = "*"
-openai = "*"
+openai = "==0.27.7"
 
 [dev-packages]
 mypy = "*"
