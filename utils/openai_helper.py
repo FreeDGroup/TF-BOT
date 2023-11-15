@@ -82,7 +82,7 @@ async def gen_answer(user_input) -> str | None:
             ],
             timeout=30,
         )
-        return json.loads(response["choices"][0]["message"]["content"])
+        return response["choices"][0]["message"]["content"]
     except Exception:
         return None
 
