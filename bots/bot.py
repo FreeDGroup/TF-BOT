@@ -99,8 +99,11 @@ class MyBot(TeamsActivityHandler):
                     await turn_context.send_activity(ai_generated)
                 elif ai_parsed_category and ai_parsed_category["category"] == 98:
                     # 그 외 질문/요청
+                    ai_generated = await openai_helper.gen_answer(turn_context.activity.text)
                     await turn_context.send_activity(
-                        f"`{ai_parsed_category['summary']}` 은 아직 도와드릴 수 없는 질문입니다. 다른 질문을 해주세요."
+                        f"""
+                        사용자 입력에 대해 최대한 짧게 답변
+                        사용자 입력: {ai_generated}"""
                     )
                 elif ai_parsed_category and ai_parsed_category["category"] == 99:
                     # 로그아웃
